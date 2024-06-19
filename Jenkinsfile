@@ -8,38 +8,35 @@ pipeline {
     stages {
         stage('Install Python') {
             steps {
-                // Install Python 3 using Homebrew on macOS
+                // Install Python 3 from python.org on macOS
                 script {
-                    sh 'brew install python@3.8'
-                    sh 'python3.8 -m ensurepip'
-                    sh 'python3.8 -m pip install --upgrade pip setuptools wheel'
+                    def pythonDownloadUrl = "https://www.python.org/ftp/python/${env.PYTHON_VERSION}/python-${env.PYTHON_VERSION}-macosx10.9.pkg"
+                    sh "curl -O ${pythonDownloadUrl}"
+                    sh "sudo installer -pkg python-${env.PYTHON_VERSION}-macosx10.9.pkg -target /"
+                    sh "python${env.PYTHON_VERSION} -m ensurepip"
+                    sh "python${env.PYTHON_VERSION} -m pip install --upgrade pip setuptools wheel"
                 }
                 // Verify Python and pip installation
-                sh 'python3.8 --version'
-                sh 'pip3.8 --version'
+                sh "python${env.PYTHON_VERSION} --version"
+                sh "pip${env.PYTHON_VERSION} --version"
             }
         }
 
         stage('Install dependencies') {
             steps {
                 // Install pytest and selenium using pip
-                sh 'pip3.8 install --upgrade pip'
-                sh 'pip3.8 install pytest selenium'
+                sh "pip${env.PYTHON_VERSION} install --upgrade pip"
+                sh "pip${env.PYTHON_VERSION} install pytest selenium"
             }
         }
 
         stage('Run tests') {
             steps {
                 // Run pytest command to execute your tests
-                sh 'pytest test_ozkan.py'  // Replace with your actual test file/module name
+                sh "python3 test_ozkan.py"  // Replace with your actual test file/module name
             }
 
-            post {
-                // Archive the test results for later reference
-                always {
-                    junit 'pytest_report.xml'
-                }
-            }
+
         }
     }
 
