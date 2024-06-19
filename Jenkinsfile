@@ -14,7 +14,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 // Run pytest command to execute your tests
-                sh 'pytest test_ozkan.py'  // Replace with your actual test file/module name
+                sh 'python3 test_ozkan.py'  // Replace with your actual test file/module name
             }
 
         }
