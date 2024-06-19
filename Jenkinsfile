@@ -8,34 +8,41 @@ pipeline {
     stages {
         stage('Install Python') {
             steps {
-                // Install Python 3 using apt-get (Linux) or choco (Windows)
+                // Install Python 3 using Homebrew on macOS
                 script {
-                    script {
                     sh 'brew install python@3.8'
-                    sh 'python3 -m ensurepip'
-                    sh 'python3 -m pip install --upgrade pip setuptools wheel'
+                    sh 'python3.8 -m ensurepip'
+                    sh 'python3.8 -m pip install --upgrade pip setuptools wheel'
                 }
                 // Verify Python and pip installation
-                sh 'python3 --version'
-                sh 'pip3 --version'
+                sh 'python3.8 --version'
+                sh 'pip3.8 --version'
             }
         }
 
         stage('Install dependencies') {
             steps {
                 // Install pytest and selenium using pip
-                sh 'pip3 install --upgrade pip'
-                sh 'pip3 install pytest selenium'
+                sh 'pip3.8 install --upgrade pip'
+                sh 'pip3.8 install pytest selenium'
             }
         }
 
         stage('Run tests') {
             steps {
                 // Run pytest command to execute your tests
-                sh 'python3 test_ozkan.py'  // Replace with your actual test file/module name
+                sh 'pytest test_ozkan.py'  // Replace with your actual test file/module name
             }
 
             post {
                 // Archive the test results for later reference
                 always {
+                    junit 'pytest_report.xml'
+                }
+            }
+        }
+    }
 
+    // Additional post-build actions can be added here if needed
+    // For example, sending notifications, publishing reports, etc.
+}
