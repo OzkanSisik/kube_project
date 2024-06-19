@@ -11,7 +11,7 @@ class TestGoogleSearch:
 
     @classmethod
     def teardown_class(cls):
-        # Close WebDriver
+
         cls.driver.quit()
 
     def test_google_search(self):
