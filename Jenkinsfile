@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                pip install pytest
+                sh pip install pytest
             }
         }
         stage('Test') {
