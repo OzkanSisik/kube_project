@@ -15,7 +15,7 @@ class TestGoogleSearch:
         cls.driver.quit()
 
     def test_google_search(self):
-        # Open Google
+
         self.driver.get("https://www.google.com/")
 
 if __name__ == "__main__":
